@@ -21,28 +21,29 @@ $ccFlavors = array("grasshopper"=>"The Grasshopper"
 , "tiramisu"=>"Tiramisu");
 
 $selectedFlavors = array();
+$errorSelect = "hidden";
 
 if(!empty($_POST)) {
     #validate flavors
     #check at least one flavor is selected.
     if(isset($_POST['flavors'])) {
         $selectedFlavors = $_POST['flavors'];
-        foreach($selectedFlavors as $selFlavor) {
-            if(!in_array($selFlavor, $ccFlavors)) {
-                #replace with hidden spans in code
-                echo "Invalid Selection: Please choose a valid flavor.";
-                $isValid = FALSE;
-                break;
+        #test selections
+        foreach ($selectedFlavors as $selFlavor) {
+            #if selection is not a flavor option
+            if (!array_key_exists($selFlavor, $ccFlavors)) {
+                #trigger reprimanding error message
+                $errorSelect = '';
             }
         }
     }
     else {
-        #return "Please select a flavor."
+        $errorSelect = '';
     }
 }
 
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -54,6 +55,7 @@ if(!empty($_POST)) {
 <!--Order form for cupcakes-->
 <form method="POST" action="#">
     <fieldset>
+        <legend>Customer Name</legend>
         <label>First Name: <br>
             <input type="text" name="firstName" id="firstName">
         </label><br>
@@ -62,18 +64,21 @@ if(!empty($_POST)) {
         </label><br>
     </fieldset>
     <fieldset>
-        <label>Cupcake Options: <br>
+        <legend>Cupcake Options</legend><br>
             <?php
+            echo "<p $errorSelect>Please select a cupcake flavors(s).</p>";
 
             foreach ($ccFlavors as $flavorName => $flavorValue) {
                 $checked = "";
                 if(in_array($flavorName, $selectedFlavors)) $checked='checked';
-                echo "<input type='checkbox' $checked
-                        name='flavors[]' value='$flavorName' id='$flavorName'
-                        >$flavorValue <br>";
+                echo "<label>
+                            <input type='checkbox' $checked
+                            name='flavors[]' value='$flavorName' id='$flavorName'>
+                            $flavorValue <br>
+                      </label>";
             }
             ?>
-        </label>
+
     </fieldset>
     <input type="submit" value="Place Order">
 </form>
