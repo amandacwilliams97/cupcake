@@ -5,6 +5,9 @@
  * cupcakes/index.php
  */
 
+#Error Reporting
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 ?>
 
 <!doctype html>
@@ -28,12 +31,20 @@
     </fieldset>
     <fieldset>
         <label>Cupcake Options: <br>
-            <input type="checkbox">
-            <input type="checkbox">
-            <input type="checkbox">
-            <input type="checkbox">
-            <input type="checkbox">
-            <input type="checkbox">
+            <?php
+            #cupcake flavors array
+            $ccFlavors = array("grasshopper"=>"The Grasshopper"
+                , "maple"=>"Whiskey Maple Bacon"
+                , "carrot"=>"Carrot Walnut"
+                , "carmel"=>"Salted Carmel Cupcake"
+                , "velvet"=>"Red Velvet"
+                , "lemon"=>"Lemon Drop"
+                , "tiramisu"=>"Tiramisu");
+
+            foreach ($ccFlavors as $flavorName => $flavorValue) {
+                echo "<input type='checkbox' name='$flavorName' id='$flavorName'>$flavorValue <br>";
+            }
+            ?>
         </label>
     </fieldset>
     <input type="submit" value="Place Order">
