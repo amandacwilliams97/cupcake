@@ -2,7 +2,10 @@
 /**
  * Amanda Williams
  * January 6, 2018
- * cupcakes/index.php
+ * http://awilliams.greenriverdev.com/328/cupcakes/index.php
+ * This web page allows a customer to
+ *  order cupcakes and recieve the total
+ *  price of how much they owe.
  */
 
 #Error Reporting
@@ -22,6 +25,7 @@ $ccFlavors = array("grasshopper"=>"The Grasshopper"
 
 $selectedFlavors = array();
 $errorSelect = "hidden";
+$errorName ="hidden";
 
 $firstName = "";
 $lastName = "";
@@ -30,6 +34,10 @@ if(!empty($_POST)) {
     #make customer name sticky
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
+
+    if(empty($_POST['firstName']) OR empty($_POST['lastName'])) {
+        $errorName = "";
+    }
 
     #validate flavors
     #check at least one flavor is selected.
@@ -45,9 +53,11 @@ if(!empty($_POST)) {
         }
     }
     else {
+        #If no flavors are selected display error
         $errorSelect = '';
     }
 
+    #If data is valie
     #if($errorSelect) {
         #header("location: output.php");
     #}
@@ -67,6 +77,9 @@ if(!empty($_POST)) {
 <form method="POST" action="#">
     <fieldset>
         <legend>Customer Name</legend>
+        <?php
+            echo "<p $errorName>Please provide a first and last name.</p>";
+            ?>
         <label>First Name: <br>
             <input type="text" name="firstName" id="firstName"
                 <?php echo "value=$firstName" ?>>
@@ -79,7 +92,7 @@ if(!empty($_POST)) {
     <fieldset>
         <legend>Cupcake Options</legend><br>
             <?php
-            echo "<p $errorSelect>Please select a cupcake flavors(s).</p>";
+            echo "<p $errorSelect>Please select a cupcake flavor(s).</p>";
 
             foreach ($ccFlavors as $flavorName => $flavorValue) {
                 $checked = "";
