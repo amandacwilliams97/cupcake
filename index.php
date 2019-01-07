@@ -23,7 +23,14 @@ $ccFlavors = array("grasshopper"=>"The Grasshopper"
 $selectedFlavors = array();
 $errorSelect = "hidden";
 
+$firstName = "";
+$lastName = "";
+
 if(!empty($_POST)) {
+    #make customer name sticky
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+
     #validate flavors
     #check at least one flavor is selected.
     if(isset($_POST['flavors'])) {
@@ -40,6 +47,10 @@ if(!empty($_POST)) {
     else {
         $errorSelect = '';
     }
+
+    #if($errorSelect) {
+        #header("location: output.php");
+    #}
 }
 
 ?>
@@ -57,10 +68,12 @@ if(!empty($_POST)) {
     <fieldset>
         <legend>Customer Name</legend>
         <label>First Name: <br>
-            <input type="text" name="firstName" id="firstName">
+            <input type="text" name="firstName" id="firstName"
+                <?php echo "value=$firstName" ?>>
         </label><br>
         <label>Last Name: <br>
-            <input type="text" name="lastName" id="lastName">
+            <input type="text" name="lastName" id="lastName"
+                   <?php  echo "value=$lastName" ?>>
         </label><br>
     </fieldset>
     <fieldset>
