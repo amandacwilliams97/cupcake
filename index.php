@@ -24,6 +24,9 @@ $ccFlavors = array("grasshopper"=>"The Grasshopper"
 , "tiramisu"=>"Tiramisu");
 
 $selectedFlavors = array();
+$selFlavList = '';
+
+
 $errorSelect = "hidden";
 $errorName ="hidden";
 
@@ -36,7 +39,7 @@ if(!empty($_POST)) {
     $lastName = $_POST['lastName'];
 
     if(empty($_POST['firstName']) OR empty($_POST['lastName'])) {
-        $errorName = "";
+        $errorName = '';
     }
 
     #validate flavors
@@ -50,17 +53,16 @@ if(!empty($_POST)) {
                 #trigger reprimanding error message
                 $errorSelect = '';
             }
+            else {
+                #add flavor to output list
+                $selFlavList.= "<li>$ccFlavors[$selFlavor]</li>";
+            }
         }
     }
     else {
         #If no flavors are selected display error
         $errorSelect = '';
     }
-
-    #If data is valie
-    #if($errorSelect) {
-        #header("location: output.php");
-    #}
 }
 
 ?>
@@ -108,6 +110,15 @@ if(!empty($_POST)) {
     </fieldset>
     <input type="submit" value="Place Order">
 </form>
+<!--Display customer's receipt-->
+<?php
+if((!empty($_POST)) AND ((bool)$errorSelect AND (bool)$errorName)) {
+    $totalCost = (int)count($selectedFlavors)*3.50;
+    echo "<p>Thank you, $firstName, for your order!</p>
+            <ul><strong>Order Summary:</strong>$selFlavList</ul>
+            <p>Order Total: $$totalCost</p>"; #get total to display to two decimal point.
+}
+?>
 
 
 </body>
