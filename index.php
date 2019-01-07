@@ -10,6 +10,38 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ?>
 
+<?php
+#cupcake flavors array
+$ccFlavors = array("grasshopper"=>"The Grasshopper"
+, "maple"=>"Whiskey Maple Bacon"
+, "carrot"=>"Carrot Walnut"
+, "carmel"=>"Salted Carmel Cupcake"
+, "velvet"=>"Red Velvet"
+, "lemon"=>"Lemon Drop"
+, "tiramisu"=>"Tiramisu");
+
+$selectedFlavors = array();
+
+if(!empty($_POST)) {
+    #validate flavors
+    #check at least one flavor is selected.
+    if(isset($_POST['flavors'])) {
+        $selectedFlavors = $_POST['flavors'];
+        foreach($selectedFlavors as $selFlavor) {
+            if(!in_array($selFlavor, $ccFlavors)) {
+                #replace with hidden spans in code
+                echo "Invalid Selection: Please choose a valid flavor.";
+                $isValid = FALSE;
+                break;
+            }
+        }
+    }
+    else {
+        #return "Please select a flavor."
+    }
+}
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -32,17 +64,13 @@ error_reporting(E_ALL);
     <fieldset>
         <label>Cupcake Options: <br>
             <?php
-            #cupcake flavors array
-            $ccFlavors = array("grasshopper"=>"The Grasshopper"
-                , "maple"=>"Whiskey Maple Bacon"
-                , "carrot"=>"Carrot Walnut"
-                , "carmel"=>"Salted Carmel Cupcake"
-                , "velvet"=>"Red Velvet"
-                , "lemon"=>"Lemon Drop"
-                , "tiramisu"=>"Tiramisu");
 
             foreach ($ccFlavors as $flavorName => $flavorValue) {
-                echo "<input type='checkbox' name='$flavorName' id='$flavorName'>$flavorValue <br>";
+                $checked = "";
+                if(in_array($flavorName, $selectedFlavors)) $checked='checked';
+                echo "<input type='checkbox' $checked
+                        name='flavors[]' value='$flavorName' id='$flavorName'
+                        >$flavorValue <br>";
             }
             ?>
         </label>
