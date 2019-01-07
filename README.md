@@ -1,2 +1,2 @@
 # cupcake
-created for review assignment: cupcakes
+Created for Review Assignment: Cupcakes.
